@@ -35,6 +35,10 @@ public class Main {
                     System.out.println("Gracias por usar el SocialBuddyREST client");
                     System.exit(1);
                 }
+                default:{
+                    System.out.println("Opcion no valida");
+                    menu();
+                }
 
 
             }
@@ -82,26 +86,32 @@ public class Main {
 
         HttpResponse<JsonNode> jsonResponse3 = Unirest.get("http://localhost:4567/posts/"+s).asJson();
 
-        com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        if(!jsonResponse3.getBody().toString().equalsIgnoreCase("[]")){
+            com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 
-        List<Post> posts = objectMapper.readValue(
-                jsonResponse3.getBody().toString(),
-                objectMapper.getTypeFactory().constructCollectionType(
-                        List.class, Post.class));
+            List<Post> posts = objectMapper.readValue(
+                    jsonResponse3.getBody().toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            List.class, Post.class));
 
-        System.out.println("************************************************");
-        for (Post post : posts) {
-            System.out.println("ID: " + post.getId());
-            System.out.println("Texto del post: " + post.getTexto());
-            System.out.println("Fecha posteado: " + post.getTiempo());
             System.out.println("************************************************");
+            for (Post post : posts) {
+                System.out.println("ID: " + post.getId());
+                System.out.println("Texto del post: " + post.getTexto());
+                System.out.println("Fecha posteado: " + post.getTiempo());
+                System.out.println("************************************************");
+            }
+        }else{
+            System.out.println("\n1Usuario no encontrado");
         }
+
+
 
     }
 
     static void postear() throws UnirestException {
 
-        File file = new File ("a enviar/test.jpg").getAbsoluteFile();
+      //  File file = new File ("a enviar/test.jpg").getAbsoluteFile();
 
         System.out.println("Credenciales del usuario.\nUsername o email: ");
         Scanner in = new Scanner(System.in);
