@@ -6,8 +6,6 @@ import modelo.Post;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws UnirestException, IOException {
 
-        String opciones = "";
+        String opciones;
         System.out.println("SocialBuddyREST client.\nElija la opcion deseada: ");
         while (true){
             menu();
@@ -44,32 +42,9 @@ public class Main {
             }
         }
 
-
-
-        /*
-        JSONObject j = new JSONObject();
-        System.out.println("Agregar nuevo estudiante: \nCorreo: ");
-        String correo = in.nextLine();
-        j.put("correo",correo);
-        System.out.println("\nCarrera: ");
-        String carrera = in.nextLine();
-        j.put("matricula",17);
-        j.put("carrera",carrera);
-        System.out.println("\nNombre: ");
-        String nombre = in.nextLine();
-        j.put("nombre",nombre);
-
-        HttpResponse<JsonNode> jsonResponse2 = Unirest.post("http://localhost:4567/rest/estudiantes/")
-                .header("accept", "application/json")
-                .header("Content-Type", "application/json")
-                .body(j)
-                .asJson();
-
-        System.out.println("Se guardo el estuidante: " + jsonResponse2.getBody());
-        */
     }
 
-    static void menu(){
+    private static void menu(){
 
         System.out.println("\n1)Cargar posts de un usuario." +
                 "\n2)Crear un post" +
@@ -77,7 +52,7 @@ public class Main {
 
     }
 
-    static void getPostsUsuario() throws IOException, UnirestException {
+    private static void getPostsUsuario() throws IOException, UnirestException {
 
         System.out.println("Usuario a consultar: ");
         Scanner in = new Scanner(System.in);
@@ -109,7 +84,7 @@ public class Main {
 
     }
 
-    static void postear() throws UnirestException {
+    private static void postear() throws UnirestException {
 
       //  File file = new File ("a enviar/test.jpg").getAbsoluteFile();
 
@@ -135,7 +110,7 @@ public class Main {
             if(imgPath.equalsIgnoreCase("")){
                 HttpResponse<String> jsonResponse3 = Unirest.post("http://localhost:4567/crear/"+s)
                         .field("texto",texto)
-                        .field("imagen","")
+                        .field("imagen","no")
                         .asString();
 
                 System.out.println(jsonResponse3.getBody());
@@ -150,15 +125,6 @@ public class Main {
 
         }
 
-
     }
-
-    static Timestamp getFechaActual(){
-        Date date= new Date();
-
-        long time = date.getTime();
-        return new Timestamp(time);
-    }
-
 
 }
